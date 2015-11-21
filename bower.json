@@ -1,0 +1,33 @@
+{
+  "name": "angular-papa-promise",
+  "description": "This module provides an AngularJS service wrapper for the PapaParse (http://papaparse.com/) CSV parsing library so it can be injected via dependency injection. It uses promises instead of the default callback mechanism.",
+  "main": "dist/angular-papa-promise.js",
+  "authors": [
+    "Oliver Färber"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "angularjs",
+    "papaparse",
+    "promise",
+    "parser",
+    "csv",
+    "service"
+  ],
+  "homepage": "https://github.com/of17/angular-papa-promise",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "*",
+    "papaparse": "*"
+  },
+  "devDependencies": {
+    "angular-mocks": "*"
+  }
+}
