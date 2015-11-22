@@ -11,20 +11,24 @@
     function PapaPromise($window, $q) {
 
         /**
-         * @param file
+         * @param csv
          * @param config
          * @return {promise}
          */
-        function parse(file, config) {
+        function parse(csv, config) {
             var deferred = $q.defer();
             config = config || {};
-            config.complete = function parsingComplete(content) {
-                deferred.resolve(content);
+            config.complete = function parsingComplete(result) {
+                if (!result.errors.length) {
+                    deferred.resolve(result);
+                    return;
+                }
+                deferred.reject(result);
             };
-            config.error = function parsingFailed(error) {
+            config.error = function readingFileFailed(error) {
                 deferred.reject(error);
             };
-            $window.Papa.parse(file, config);
+            $window.Papa.parse(csv, config);
             return deferred.promise;
         }
 

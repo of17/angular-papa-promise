@@ -1,32 +1,36 @@
-/*! angular-papa-promise - v0.0.1 - 2015-11-21 
+/*! angular-papa-promise - v0.0.2 - 2015-11-22 
 https://github.com/of17/angular-papa-promise#readme */
 (function (angular) {
     'use strict';
 
     angular.module('papa-promise', [])
-        .service('Papa', PapaParse);
+        .service('Papa', PapaPromise);
 
     /**
-     * @constructor PapaParse
+     * @constructor PapaPromise
      * @ngInject
      */
-    function PapaParse($window, $q) {
+    function PapaPromise($window, $q) {
 
         /**
-         * @param file
+         * @param csv
          * @param config
          * @return {promise}
          */
-        function parse(file, config) {
+        function parse(csv, config) {
             var deferred = $q.defer();
-            config = config || {};
-            config.complete = function parsingComplete(content) {
-                deferred.resolve(content);
+            config = config || {};
+            config.complete = function parsingComplete(result) {
+                if (!result.errors.length) {
+                    deferred.resolve(result);
+                    return;
+                }
+                deferred.reject(result);
             };
-            config.error = function parsingFailed(error) {
+            config.error = function readingFileFailed(error) {
                 deferred.reject(error);
             };
-            $window.Papa.parse(file, config);
+            $window.Papa.parse(csv, config);
             return deferred.promise;
         }
 
@@ -34,6 +38,6 @@ https://github.com/of17/angular-papa-promise#readme */
             parse: parse
         });
     }
-    PapaParse.$inject = ['$window', '$q'];
+    PapaPromise.$inject = ['$window', '$q'];
 
 }(angular));

@@ -1,6 +1,6 @@
 {
   "name": "angular-papa-promise",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "This module provides an AngularJS service wrapper for the PapaParse (http://papaparse.com/) CSV parsing library so it can be injected via dependency injection. It uses promises instead of the default callback mechanism.",
   "main": "dist/angular-papa-promise.js",
   "scripts": {
