@@ -1,4 +1,4 @@
-/*! angular-papa-promise - v0.0.2 - 2015-11-22 
+/*! angular-papa-promise - v0.0.3 - 2015-11-23 
 https://github.com/of17/angular-papa-promise#readme */
 (function (angular) {
     'use strict';
@@ -11,31 +11,47 @@ https://github.com/of17/angular-papa-promise#readme */
      * @ngInject
      */
     function PapaPromise($window, $q) {
+        var Papa = $window.Papa;
 
         /**
          * @param csv
          * @param config
          * @return {promise}
          */
-        function parse(csv, config) {
+        function parse(input, config) {
             var deferred = $q.defer();
             config = config || {};
-            config.complete = function parsingComplete(result) {
-                if (!result.errors.length) {
-                    deferred.resolve(result);
+            config.complete = function onComplete(result) {
+                if (config.rejectOnError && result.errors.length) {
+                    deferred.reject(result);
                     return;
                 }
-                deferred.reject(result);
+                deferred.resolve(result);
             };
-            config.error = function readingFileFailed(error) {
+            config.error = function onError(error) {
                 deferred.reject(error);
             };
-            $window.Papa.parse(csv, config);
+            Papa.parse(input, config);
             return deferred.promise;
         }
 
+        /**
+         * @param json
+         * @param config
+         * @return {promise}
+         */
+        function unparse(json, config) {
+            try {
+                return $q.resolve(Papa.unparse(json, config));
+            } catch (err) {
+                return $q.reject(err);
+            }
+        }
+
         angular.extend(this, {
-            parse: parse
+            parse: parse,
+            unparse: unparse,
+            Papa: Papa
         });
     }
     PapaPromise.$inject = ['$window', '$q'];
