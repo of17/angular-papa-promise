@@ -1,4 +1,4 @@
-/*! angular-papa-promise - v0.0.3 - 2015-11-23 
+/*! angular-papa-promise - v0.0.4 - 2016-09-05 
 https://github.com/of17/angular-papa-promise#readme */
 (function (angular) {
     'use strict';
